@@ -14,7 +14,8 @@ Arc diagrams and PyMOL overlays are useful but show one head at a time. The new 
 
 | Component | Purpose |
 |-----------|---------|
-| `visualize_attention_head_heatmaps.py` | Builds dense per-head matrices from `load_all_heads()` and plots a grid of residue–residue heatmaps (one per head). |
+| `visualize_attention_data.py` | Shared attention-map parser and FASTA reader used by every visualization module. |
+| `visualize_attention_head_heatmaps.py` | Builds dense per-head matrices from shared parsed attention data and plots a grid of residue–residue heatmaps (one per head). |
 | `visualize_attention_networks.py` | Aggregates heads into one weighted graph and/or draws one small network per head; supports circular or linear layout and hub highlighting. |
 | Notebook cells (in `viz_attention_demo.ipynb` and `viz_attention_demo_base.ipynb`) | After running 3D and arc visualizations, a new cell runs heatmap and network code for MSA row and (optionally) triangle-start attention. |
 | `scripts/run_head_heatmap_network_demo.py` | Standalone script that generates **synthetic** attention data and runs the new visualizations to produce example outputs without full OpenFold inference. |
@@ -61,9 +62,10 @@ The new visualizations do not replace arc or 3D views; they complement them by a
 ## File and Function Reference
 
 - **Build matrices**: `build_head_matrices(heads, n_residues)` in `visualize_attention_head_heatmaps.py`.
+- **Load attention data**: `load_attention_map(connections_file, top_k=...)` in `visualize_attention_data.py`.
 - **Heatmap panel**: `plot_head_heatmaps(head_mats, residue_sequence, layer_idx, protein, output_dir, ...)`.
 - **Aggregated graph**: `build_aggregated_graph(heads, aggregation="mean", normalize_by_heads=True)` in `visualize_attention_networks.py`.
 - **Single network plot**: `plot_residue_network(edges, n_residues, residue_sequence, layer_idx, protein, output_dir, layout="circular", max_edges=200, top_k_hubs=10)`.
 - **Per-head networks**: `plot_residue_network_per_head(heads, n_residues, ...)`.
 
-Input `heads` is the dict returned by `load_all_heads(connections_file, top_k=...)` from `visualize_attention_arc_diagram_demo_utils` (or the same function in `visualize_attention_3d_demo_utils`).
+Input `heads` is the dict returned by `load_attention_map(connections_file, top_k=...)` from `visualize_attention_data.py`. The older `load_all_heads()` import path is still available for compatibility.

@@ -220,7 +220,7 @@ def plot_residue_network_per_head(
     Draw one small network per head in a grid (small multiples).
 
     Args:
-        heads: From load_all_heads().
+        heads: From load_attention_map() in visualize_attention_data.
         n_residues, residue_sequence, layer_idx, protein, output_dir: As in plot_residue_network.
         layout: "circular" or "linear".
         max_edges_per_head: Max edges to draw per head.

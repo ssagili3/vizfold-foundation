@@ -20,7 +20,7 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, REPO_ROOT)
 
 import numpy as np
-from visualize_attention_arc_diagram_demo_utils import load_all_heads, parse_fasta_sequence
+from visualize_attention_data import load_attention_map, parse_fasta_sequence
 from visualize_attention_head_heatmaps import build_head_matrices, plot_head_heatmaps
 from visualize_attention_networks import (
     build_aggregated_graph,
@@ -81,7 +81,7 @@ def main():
     )
 
     msa_file = os.path.join(attn_dir, f"msa_row_attn_layer{layer_idx}.txt")
-    heads = load_all_heads(msa_file, top_k=top_k)
+    heads = load_attention_map(msa_file, top_k=top_k)
     head_mats = build_head_matrices(heads, n_residues=n_residues)
     plot_head_heatmaps(
         head_mats,

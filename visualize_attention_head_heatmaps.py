@@ -23,8 +23,7 @@ def build_head_matrices(
 
     Args:
         heads: Dict mapping head_idx -> list of (res_i, res_j, weight).
-               From load_all_heads() in visualize_attention_arc_diagram_demo_utils
-               or visualize_attention_3d_demo_utils.
+               From load_attention_map() in visualize_attention_data.
         n_residues: Number of residues (sequence length). If None, inferred from
                     max index appearing in any head.
         symmetrize: If True, set A[i,j] = A[j,i] = max(weight(i,j), weight(j,i)).
