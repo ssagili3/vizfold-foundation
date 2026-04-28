@@ -21,6 +21,7 @@ sys.path.insert(0, REPO_ROOT)
 
 import numpy as np
 from visualize_attention_data import load_attention_map, parse_fasta_sequence
+from visualize_attention_chord_diagrams import generate_chord_diagrams
 from visualize_attention_head_heatmaps import build_head_matrices, plot_head_heatmaps
 from visualize_attention_networks import (
     build_aggregated_graph,
@@ -68,6 +69,7 @@ def main():
     attn_dir = os.path.join(out_base, "attention_files_6KWC_demo")
     heatmap_dir = os.path.join(out_base, "head_heatmaps")
     network_dir = os.path.join(out_base, "network_plots")
+    chord_dir = os.path.join(out_base, "chord_diagrams")
 
     layer_idx = 47
     top_k = 50
@@ -115,6 +117,18 @@ def main():
         layout="circular",
         max_edges_per_head=50,
         cols=4,
+    )
+    generate_chord_diagrams(
+        attention_dir=attn_dir,
+        residue_sequence=residue_seq,
+        output_dir=chord_dir,
+        protein=protein,
+        attention_type="msa_row",
+        top_k=top_k,
+        layer_idx=layer_idx,
+        save_individual=True,
+        save_grid=True,
+        save_aggregated=True,
     )
     print(f"Example outputs saved under {out_base}")
     return 0

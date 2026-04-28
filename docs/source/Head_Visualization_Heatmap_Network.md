@@ -17,6 +17,7 @@ Arc diagrams and PyMOL overlays are useful but show one head at a time. The new 
 | `visualize_attention_data.py` | Shared attention-map parser and FASTA reader used by every visualization module. |
 | `visualize_attention_head_heatmaps.py` | Builds dense per-head matrices from shared parsed attention data and plots a grid of residue–residue heatmaps (one per head). |
 | `visualize_attention_networks.py` | Aggregates heads into one weighted graph and/or draws one small network per head; supports circular or linear layout and hub highlighting. |
+| `visualize_attention_chord_diagrams.py` | Renders circular chord diagrams for single heads, all-head grids, and aggregated mean attention. |
 | Notebook cells (in `viz_attention_demo.ipynb` and `viz_attention_demo_base.ipynb`) | After running 3D and arc visualizations, a new cell runs heatmap and network code for MSA row and (optionally) triangle-start attention. |
 | `scripts/run_head_heatmap_network_demo.py` | Standalone script that generates **synthetic** attention data and runs the new visualizations to produce example outputs without full OpenFold inference. |
 
@@ -56,6 +57,7 @@ Arc diagrams and PyMOL overlays are useful but show one head at a time. The new 
 | **Heatmap grid** | Comparing all heads in one layer; seeing dense vs. sparse and similarity across heads. |
 | **Aggregated network** | Which residues are hubs across the whole layer; one picture for “consensus” attention. |
 | **Per-head network grid** | Same as heatmap grid but with a network layout; can be easier for seeing clusters and long-range ties. |
+| **Chord diagrams** | Circular residue-residue attention view; useful for seeing long-range links without forcing residues into a straight line. |
 
 The new visualizations do not replace arc or 3D views; they complement them by answering “what do all heads in this layer look like together?” and “which residues matter most when we aggregate heads?”
 
@@ -67,5 +69,6 @@ The new visualizations do not replace arc or 3D views; they complement them by a
 - **Aggregated graph**: `build_aggregated_graph(heads, aggregation="mean", normalize_by_heads=True)` in `visualize_attention_networks.py`.
 - **Single network plot**: `plot_residue_network(edges, n_residues, residue_sequence, layer_idx, protein, output_dir, layout="circular", max_edges=200, top_k_hubs=10)`.
 - **Per-head networks**: `plot_residue_network_per_head(heads, n_residues, ...)`.
+- **Chord diagrams**: `generate_chord_diagrams(attention_dir, residue_sequence, output_dir, protein, ...)` in `visualize_attention_chord_diagrams.py`.
 
 Input `heads` is the dict returned by `load_attention_map(connections_file, top_k=...)` from `visualize_attention_data.py`. The older `load_all_heads()` import path is still available for compatibility.
